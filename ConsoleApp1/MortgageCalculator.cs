@@ -4,7 +4,7 @@
 // it needs:
 //1- three variables: Loan term, Loan amount and annual interest
 //2- constructor to initialize these variables.
-//3- a method to perform and calculate mortgage
+//3- a method to perform and calculate mortgage and round the monthy payment of deciaml 2
     // loan term should be multiplied by 12, which is the number of months in a year
     // annual interest should be converted to monthly interest
 //4- a formula for calculating
