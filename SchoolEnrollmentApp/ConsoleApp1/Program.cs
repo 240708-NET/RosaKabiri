@@ -10,9 +10,58 @@ Done: create the DbContext classes --
  we can migrate to the database! 
 dotnet ef migrations add <Migration_Name> dotnet ef database update
 */
-
 //This is a simple SchoolEnrollment app  
 // to help school administrators manage student enrollments. 
+
+using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SchoolEnrollmentApp.Data;
+using SchoolEnrollmentApp.Models;
+using SchoolEnrollmentApp.Repositories;
+
+namespace SchoolEnrollmentApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Configure services
+            var serviceProvider = new ServiceCollection()
+                .AddDbContext<SchoolDbContext>(options =>
+                    options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=True;"))
+                .AddScoped<IStudentRepository, StudentRepository>()
+                .BuildServiceProvider();
+
+            // Resolve the repository
+            var studentRepository = serviceProvider.GetService<IStudentRepository>();
+
+            // Add a new student
+            Console.WriteLine("Enter student's ID:");
+            var studentId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter student's first name:");
+            var firstName = Console.ReadLine();
+            Console.WriteLine("Enter student's last name:");
+            var lastName = Console.ReadLine();
+            Console.WriteLine("Enter enrollment date (yyyy-MM-dd):");
+            var enrollmentDate = DateTime.Parse(Console.ReadLine());
+
+            var student = new Student(studentId, firstName, lastName, enrollmentDate);
+    
+
+            studentRepository.AddStudent(student);
+
+            // Retrieve all students
+            var students = studentRepository.GetAllStudents();
+            Console.WriteLine("\nStudents:");
+            foreach (var s in students)
+            {
+                Console.WriteLine($"{s.StudentID}: {s.FirstName} {s.LastName}, Enrolled on {s.EnrollmentDate.ToShortDateString()}");
+            }
+        }
+    }
+}
+
 
 
 
