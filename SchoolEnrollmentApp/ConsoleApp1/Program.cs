@@ -26,10 +26,14 @@ namespace SchoolEnrollmentApp
     {
         static void Main(string[] args)
         {
+
+            // string ConnectionString="Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;";
+            // SchoolDbContext Context = new SchoolDbContext(options => options.UseSqlServer(ConnectionString));
+
             // Configure services
             var serviceProvider = new ServiceCollection()
                 .AddDbContext<SchoolDbContext>(options =>
-                    options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=True;"))
+                  options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;"))
                 .AddScoped<IStudentRepository, StudentRepository>()
                 .BuildServiceProvider();
 

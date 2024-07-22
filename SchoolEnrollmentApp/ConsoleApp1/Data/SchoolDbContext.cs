@@ -16,11 +16,12 @@ namespace SchoolEnrollmentApp.Data
 {
     public class SchoolDbContext : DbContext
     {
-        public SchoolDbContext(DbContextOptions<SchoolDbContext> options): base(options)
-        {
-        }
+       public DbSet<Student> Students { get; set; } = null!;
+      // constructor:
+        public SchoolDbContext(DbContextOptions<SchoolDbContext> options): base(options) {}
 
-        public DbSet<Student> Students { get; set; }
+       
+        // public DbSet<Student> Students => Set<Student>();
     }
 }
 
