@@ -27,33 +27,35 @@ namespace SchoolEnrollmentApp
         static void Main(string[] args)
         {
 
-            // string ConnectionString="Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;";
-            // SchoolDbContext Context = new SchoolDbContext(options => options.UseSqlServer(ConnectionString));
-
             // Configure services
-            var serviceProvider = new ServiceCollection()
-                .AddDbContext<SchoolDbContext>(options =>
-                  options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;"))
-                .AddScoped<IStudentRepository, StudentRepository>()
-                .BuildServiceProvider();
+            // var serviceProvider = new ServiceCollection()
+            //     .AddDbContext<SchoolDbContext>(options =>
+            //     options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;"))
+            //     .AddScoped<IStudentRepository, StudentRepository>()
+            //     .BuildServiceProvider();
 
             // Resolve the repository
-            var studentRepository = serviceProvider.GetService<IStudentRepository>();
+            // var studentRepository = serviceProvider.GetService<IStudentRepository>();
 
             // Add a new student
             Console.WriteLine("Enter student's ID:");
-            var studentId = int.Parse(Console.ReadLine());
+            var studentId = int.Parse(Console.ReadLine() ?? "0");
             Console.WriteLine("Enter student's first name:");
             var firstName = Console.ReadLine();
             Console.WriteLine("Enter student's last name:");
             var lastName = Console.ReadLine();
             Console.WriteLine("Enter enrollment date (yyyy-MM-dd):");
-            var enrollmentDate = DateTime.Parse(Console.ReadLine());
+           var enrollmentDate = DateTime.Parse(Console.ReadLine() ?? DateTime.Now.ToString());
 
-            var student = new Student(studentId, firstName, lastName, enrollmentDate);
     
+           var student = new Student(studentId, firstName ?? string.Empty, lastName ?? string.Empty, enrollmentDate);
+             
+             var context= new SchoolDbContext();
+             var studentRepository = new StudentRepository(context);
+             
+             // Add a new student method
+             studentRepository.AddStudent(student);
 
-            studentRepository.AddStudent(student);
 
             // Retrieve all students
             var students = studentRepository.GetAllStudents();
