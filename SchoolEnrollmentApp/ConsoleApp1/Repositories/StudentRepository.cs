@@ -10,7 +10,7 @@ namespace SchoolEnrollmentApp.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
-        private readonly SchoolDbContext _context;
+        private readonly SchoolDbContext _context; // make an instance of SchoolDbContext
 
         public StudentRepository(SchoolDbContext context)
         {

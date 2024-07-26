@@ -2,20 +2,19 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace SchoolEnrollmentApp.Models
 {
     public class Student
     {
-    //Unhandled exception. System.InvalidOperationException:
-    // No suitable constructor was found for entity type 'Student'. 
-     //The following constructors had parameters that could not be bound to properties of the entity type:       
-    //Cannot bind 'studentId' in 'Student(int studentId, 
-    //string firstName, string lastName, DateTime enrollmentDate)'
+ 
+
+    //parameterless constuctor! Parameterless constructor are required by EF!
        public Student()
         {
         }
     // constructor and validations
-        public Student(int studentId, string? firstName, string? lastName, DateTime enrollmentDate)
+        public Student(string? firstName, string? lastName, DateTime enrollmentDate)
         {
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentException("First name is required!", nameof(firstName));
@@ -25,13 +24,15 @@ namespace SchoolEnrollmentApp.Models
                 throw new ArgumentException("Enrollment date is not valid!", nameof(enrollmentDate));
 
 
-            StudentID = studentId;
+            // StudentID = studentId;
             FirstName = firstName;
             LastName = lastName;
             EnrollmentDate = enrollmentDate;
         }
 
-        [Required]
+//Properties for columns in the students table.
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StudentID { get; set; }
 
         [Required]

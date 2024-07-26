@@ -1,15 +1,4 @@
-﻿/*
-cheatsheet: 
-Done: dotnet tool install --global dotnet-ef dotnet tool update --global dotnet-ef -- 
-Done: create your template app, project, etc... -- 
-Done: Add packages to your project 
- ///  dotnet add package Microsoft.EntityFrameworkCore.Design 
-///   dotnet add package Microsoft.EntityFrameworkCore.SqlServer -- 
-Write your code, create your classes, 
-Done: create the DbContext classes --
- we can migrate to the database! 
-dotnet ef migrations add <Migration_Name> dotnet ef database update
-*/
+﻿
 //This is a simple SchoolEnrollment app  
 // to help school administrators manage student enrollments. 
 
@@ -27,19 +16,9 @@ namespace SchoolEnrollmentApp
         static void Main(string[] args)
         {
 
-            // Configure services
-            // var serviceProvider = new ServiceCollection()
-            //     .AddDbContext<SchoolDbContext>(options =>
-            //     options.UseSqlServer("Server=localhost;Database=SchoolDatabase;User=sa;Password=NotPassword1987!;TrustServerCertificate=true;"))
-            //     .AddScoped<IStudentRepository, StudentRepository>()
-            //     .BuildServiceProvider();
-
-            // Resolve the repository
-            // var studentRepository = serviceProvider.GetService<IStudentRepository>();
-
             // Add a new student
-            Console.WriteLine("Enter student's ID:");
-            var studentId = int.Parse(Console.ReadLine() ?? "0");
+            // Console.WriteLine("Enter student's ID:");
+            // var studentId = int.Parse(Console.ReadLine() ?? "0"); //The ?? "0" ensures that if the user input is null, it defaults to "0"
             Console.WriteLine("Enter student's first name:");
             var firstName = Console.ReadLine();
             Console.WriteLine("Enter student's last name:");
@@ -48,9 +27,9 @@ namespace SchoolEnrollmentApp
            var enrollmentDate = DateTime.Parse(Console.ReadLine() ?? DateTime.Now.ToString());
 
     
-           var student = new Student(studentId, firstName ?? string.Empty, lastName ?? string.Empty, enrollmentDate);
+           var student = new Student(firstName ?? string.Empty, lastName ?? string.Empty, enrollmentDate);//The ?? string.Empty ensures that if firstName/lastName is null, it defaults to an empty string.
              
-             var context= new SchoolDbContext();
+             var context= new SchoolDbContext(); //new instance of SchoolDbContext
              var studentRepository = new StudentRepository(context);
              
              // Add a new student method
